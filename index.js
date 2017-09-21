@@ -7,12 +7,13 @@ function gulpRename(obj) {
 
   var stream = new Stream.Transform({objectMode: true});
 
-  function parsePath(path) {
+  function parsePath(path, file) {
     var extname = Path.extname(path);
     return {
       dirname: Path.dirname(path),
       basename: Path.basename(path, extname),
-      extname: extname
+      extname: extname,
+      file: file
     };
   }
 
@@ -20,7 +21,7 @@ function gulpRename(obj) {
 
 
     var file = originalFile.clone({contents: false});
-    var parsedPath = parsePath(file.relative);
+    var parsedPath = parsePath(file.relative, file);
     var path;
 
     var type = typeof obj;
