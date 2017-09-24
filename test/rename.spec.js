@@ -153,6 +153,23 @@ describe('gulp-rename', function () {
       helper(srcPattern, obj, expectedPath, done);
     });
 
+    it('receives object with file timestamps', function (done) {
+      var obj = function (path) {
+        path.timestamps.should.have.property('atime');
+        path.timestamps.atime.should.be.a.Date();
+        path.timestamps.should.have.property('mtime');
+        path.timestamps.mtime.should.be.a.Date();
+        path.timestamps.should.have.property('ctime');
+        path.timestamps.ctime.should.be.a.Date();
+        path.timestamps.should.have.property('birthtime');
+        path.timestamps.birthtime.should.be.a.Date();
+
+      };
+      var expectedPath = 'test/fixtures/hello.txt';
+      helper(srcPattern, obj, expectedPath, done);
+    });
+
+
     it('ignores the return value', function (done) {
       var obj = function (/*path*/) {
         return {
@@ -186,6 +203,13 @@ describe('gulp-rename', function () {
       var file1;
       var file2;
 
+      function check() {
+        file1.path.should.equal(Path.resolve('test/fixtures/hello-1.txt'));
+        file2.path.should.equal(Path.resolve('test/fixtures/hello-2.txt'));
+
+        return done();
+      }
+
       pipe1
         .on('data', function (file) {
           file1 = file;
@@ -210,12 +234,6 @@ describe('gulp-rename', function () {
           }
         });
 
-      function check() {
-        file1.path.should.equal(Path.resolve('test/fixtures/hello-1.txt'));
-        file2.path.should.equal(Path.resolve('test/fixtures/hello-2.txt'));
-
-        return done();
-      }
     });
   });
 

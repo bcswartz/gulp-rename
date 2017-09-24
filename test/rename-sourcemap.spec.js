@@ -25,7 +25,8 @@ describe('gulp-rename', function () {
       init.write(new gutil.File({
         base: 'fixtures',
         path: 'fixtures/fixture.css',
-        contents: new Buffer('')
+        contents: new Buffer(''),
+        stat: {atime: new Date(), mtime: new Date(), ctime: new Date(), birthtime: new Date()}
       }));
 
       init.end();
